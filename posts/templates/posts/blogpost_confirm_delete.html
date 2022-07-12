@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block title %}Suppression d'un article{% endblock title %}
+
+{% block content %}
+
+<h1>Supression de l'article '{{ post.title }}'</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input class="btn btn-delete" type="submit" value="Confirmer">
+</form>
+
+{% endblock content %}

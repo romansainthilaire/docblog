@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block title %}Acceuil du blog{% endblock %}
+
+{% block content %}
+
+<h1>Le blog de Docstring</h1>
+
+{% if user.is_authenticated %}
+
+{% for post in posts %}
+<article>
+    <div class="post-title">
+        <a href="{% url 'posts:detail' post.slug %}"><h2>{{ post.title }}</h2></a>
+        <div>
+            <a href="{% url 'posts:update' post.slug %}">Éditer</a>
+            <a href="{% url 'posts:delete' post.slug %}">Supprimer</a>
+        </div>
+    </div>
+    <h5 class="post-author">Publié par <i>{{ post.author_or_default|title }}</i> le {{ post.created_on|date:"j F Y" }}</h5>
+    <p>{{ post.content|safe|truncatewords:30 }}</p>
+</article>
+{% endfor %}
+
+{% else %}
+
+{% for post in posts %}
+{% if post.published %}
+<article>
+    <div class="post-title">
+        <a href="{% url 'posts:detail' post.slug %}"><h2>{{ post.title }}</h2></a>
+    </div>
+    <h5 class="post-author">Publié par <i>{{ post.author_or_default|title }}</i> le {{ post.created_on|date:"j F Y" }}</h5>
+    <p>{{ post.content|safe|truncatewords:30 }}</p>
+</article>
+{% endif %}
+{% endfor %}
+
+{% endif %}
+
+{% endblock content %}
